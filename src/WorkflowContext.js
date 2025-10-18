@@ -16,6 +16,8 @@ export const WorkflowProvider = ( {children} ) => {
 
     const [colorMode, setColorMode ] = useState('light') 
 
+    const [invocationIDType, setInvocationIDType] = useState("UUID")
+
     const [workflow, setWorkflow] = useState({
         ActionList : {},
         ComputeServers : {
@@ -97,6 +99,7 @@ export const WorkflowProvider = ( {children} ) => {
             undoHistory, setUndoHistory,
             colorMode, setColorMode,
             getLayoutedElements,
+            invocationIDType, setInvocationIDType
         }}>
 
             {children}

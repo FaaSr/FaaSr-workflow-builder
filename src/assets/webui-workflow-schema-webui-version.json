@@ -472,7 +472,6 @@
     "ActionContainers": {
       "description": "A mapping of action names to containers(Docker Hub)",
       "type": "object",
-      "minProperties": 1,
       "propertyNames": {
         "minLength": 1
       },

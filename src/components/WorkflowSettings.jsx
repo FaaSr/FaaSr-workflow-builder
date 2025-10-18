@@ -5,33 +5,71 @@ import TextInput from "./Utils/TextInput";
 import useWorkflowUtils from "./Utils/WorkflowUtils";
 import GenericLabel from "./Utils/GenericLabel";
 
-
 export default function WorkflowSettings(props){
-    const {workflow, setWorkflow} = useWorkflowContext();
+    const {workflow, setWorkflow, invocationIDType, setInvocationIDType} = useWorkflowContext();
     const { updateWorkflow } = useUndo();
     const { applyWorkflowChanges } = useWorkflowUtils()
-    const [ invocationIDType, setInvokationIDType] = useState("UUID")
+    const [ settingsError, setSettingsError ] = useState("")
+
 
     const handleBlur = () => {
         updateWorkflow(workflow);
     }
+
+const handleChangeIDType = (newType) => {
+    if (newType === "UUID") {
+        applyWorkflowChanges({
+            ...workflow,
+            InvocationID: "",
+            InvocationIDFromDate: "",
+        })
+
+    } else if (newType === "Timestamp") {
+        applyWorkflowChanges({
+            ...workflow,
+            InvocationID: "",
+        })
+    } else if (newType === "Custom") {
+        applyWorkflowChanges({
+            ...workflow,
+            InvocationIDFromDate: "",
+        })
+
+    } else {
+        console.log('error: unrecognized invocationIDType')
+        return
+    }
+    setInvocationIDType(newType);
+}
     
     const exampleUUID = useRef(crypto.randomUUID());
 
-    const invokationIDInput = ( type ) => {
+    const invocationIDInput = ( type ) => {
         switch (type) {
             case "Custom":
                 return (
-                    <TextInput value={workflow.InvocationID} onChange={(e) => {
-                        applyWorkflowChanges( { InvocationID : e.target.value})
-                    }} onBlur={handleBlur} placeholder={"custom-id"}></TextInput>
+                    <>
+                    <TextInput onChange={(e) => {
+                        const customID = e.target.value
+                        applyWorkflowChanges( { InvocationID : customID})
+                    }} placeholder={"Custom Invocation ID"}></TextInput>
+                    </>
+                )
+            case "Timestamp":
+                return (
+                    <>
+                    <GenericLabel value={"Timestamp Format"} size={"20px"}>
+                    </GenericLabel>
+                    <TextInput  onChange={(e) => {
+                        applyWorkflowChanges( { InvocationIDFromDate : e.target.value})
+                    }} placeholder={"e.g. %Y%m%d"}></TextInput>
+                    </>
                 )
             default : 
                 return null                
         }
     }
     
-
     return(
         <div className="editor-panel">
             
@@ -79,7 +117,9 @@ export default function WorkflowSettings(props){
             {/* Invocation Id */}
             <div style={{ display : "flex"}}>
                 <GenericLabel value={"InvocationID"} size={"20px"}>
-                <select style={ { alignSelf : "center"}} onChange={ (e) =>  { setInvokationIDType(e.target.value)}} >
+                <select style={ { alignSelf : "center"}} value={invocationIDType} onChange={ (e) =>  { 
+                    handleChangeIDType(e.target.value)
+                }} >
                     <option value={"UUID"}>UUID</option>
                     <option value={"Timestamp"}>Timestamp</option>
                     <option value={"Custom"}>Custom</option>
@@ -87,7 +127,7 @@ export default function WorkflowSettings(props){
             </GenericLabel>
             </div>
             {
-                invokationIDInput(invocationIDType)
+                invocationIDInput(invocationIDType)
             }
 
             
