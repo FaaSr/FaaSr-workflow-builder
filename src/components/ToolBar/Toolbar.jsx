@@ -12,7 +12,7 @@ import { FaDatabase  } from "react-icons/fa";
 import { FaServer  } from "react-icons/fa6";
 import { FaSitemap } from "react-icons/fa"
 import Ajv2020 from "ajv/dist/2020.js";
-
+import defaultContainers from './../../assets/default-containers.json' with { type: 'json' };
 
 export default function Toolbar(props) {
     const {workflow, edges, nodes, } = useWorkflowContext();
@@ -33,14 +33,6 @@ export default function Toolbar(props) {
 
     const applyDefaultContainers = () => {
 
-        const containerPrefixes = {
-            "GitHubActions":"ghcr.io/faasr/github-actions-",
-            "OpenWhisk":"faasr/openwhisk-",
-            "Lambda":"145342739029.dkr.ecr.us-east-1.amazonaws.com/aws-lambda-",
-            "SLURM":"faasr/slurm-",
-            "GoogleCloud":"faasr/gcp-",
-        }        
-
         const newWorkflow = structuredClone(workflow);
         
         Object.keys(workflow.ActionList).forEach((actionId) => {
@@ -51,7 +43,7 @@ export default function Toolbar(props) {
                 const computeServerId = workflow.ActionList[actionId].FaaSServer;
                 const faasType = workflow.ComputeServers[computeServerId].FaaSType;
                 const type = workflow.ActionList[actionId].Type;
-                const containerName = `${containerPrefixes[faasType]}${type.toLowerCase()}:latest`;
+                const containerName = defaultContainers[type][faasType];
                 newWorkflow.ActionContainers[actionId] = containerName;
                 
             }

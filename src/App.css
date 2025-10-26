@@ -226,3 +226,12 @@
     margin-left: 15px;
 }
 
+.side-by-side-container {
+    display: flex;
+}
+
+.right-element {
+    margin-left: 5px;
+    flex-grow: 1;
+}
+
