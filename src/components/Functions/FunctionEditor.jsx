@@ -1,5 +1,5 @@
 import { useWorkflowContext } from "../../WorkflowContext"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextInput from "../Utils/TextInput";
 import GenericLabel from "../Utils/GenericLabel";
 import useUndo from "../Utils/Undo";
@@ -25,6 +25,17 @@ export default function FunctionEditor(props){
     const [ addToLayoutError, setAddToLayoutError ] = useState(false)
     const [ duplicateError, setDuplicateError ] = useState('')
 
+    const isActionContainerEmpty = () => {
+        return !(id in workflow.ActionContainers)
+            || workflow.ActionContainers[id] === ''
+    }
+
+    const [ defaultContainer, setDefaultContainer ] = useState(isActionContainerEmpty())
+
+    useEffect(() => {
+        setDefaultContainer(isActionContainerEmpty())
+    }, [workflow.ActionContainers, id])
+
     const handleBlur = (e) => {
         updateWorkflow(workflow);
     };
@@ -35,6 +46,19 @@ export default function FunctionEditor(props){
 
     const clearDuplicateError = () => {
         setDuplicateError('');  
+    }
+
+    const handleSetDefaultContainer = (value) => {
+        setDefaultContainer(value);
+        if (value) {
+            applyWorkflowChanges({
+                ...workflow,
+                ActionContainers: {
+                    ...workflow.ActionContainers,
+                    [id]: ""
+                }
+            });
+        }
     }
 
     if(id in workflow.ActionList){
@@ -189,7 +213,16 @@ export default function FunctionEditor(props){
 
                 <div>
                     <GenericLabel size={"20px"} value={"Function's Action Container"} >
-                    <input id={id+"-actioncontainer"} key={`action-container-${id}`}style={{ width:"300px" }} type="text" placeholder="Leave blank to use default" 
+                    </GenericLabel>
+                    <div style={{border: "solid"}}>
+                    <label> Use Default Container
+                        <input type="checkbox" checked={defaultContainer} onChange={ (e) =>
+                            handleSetDefaultContainer(e.target.checked)
+                        }/>
+                    </label>
+                    <br></br>
+                    <label className="side-by-side-container"> Custom Container Image 
+                    <input id={id+"-actioncontainer"} key={`action-container-${id}`} className="right-element" type="text" placeholder="e.g. docker.io/FaaSr/openwhisk-python:latest" 
                         onChange={(e)=>applyWorkflowChanges({
                             ActionContainers: {
                                 [id] : e.target.value
@@ -197,8 +230,11 @@ export default function FunctionEditor(props){
                         })}
                         value={workflow.ActionContainers[id] || ""}
                         onBlur={handleBlur}
+                        disabled={defaultContainer}
                     />
-                    </GenericLabel>
+                    </label>
+                    </div>
+                    
                 </div>
                 <br></br>
                 <GitPackageEditor onBlur={handleBlur} id={id} ></GitPackageEditor>
