@@ -1,6 +1,6 @@
 import { useWorkflowContext } from "../../WorkflowContext";
 import useUndo from "./Undo";
-import { addEdge as add_Edge, MarkerType} from '@xyflow/react';
+import { addEdge as add_Edge, MarkerType, useViewport } from '@xyflow/react';
 import useWorkflowUtils from "./WorkflowUtils";
 // Utilities for modifying nodes and edges
 
@@ -10,7 +10,7 @@ const useLayoutUtils = () => {
         edges,
         nodes, 
     } = useWorkflowContext();
-    
+
     const {
         updateLayout
     } = useUndo();
@@ -109,13 +109,14 @@ const useLayoutUtils = () => {
      * @param {number} xPos distance from left edge of ReactFlowPanel
      * @param {number} yPos distance from top edge of ReactFlowPanel
      */
-    const addNode = ( nodeId, options = {rank : undefined, xPos : 0, yPos : 0,}, returnDontMutate = false) => {
+    const addNode = ( nodeId, options = {}, returnDontMutate = false) => {
+        const { rank, xPos = 100, yPos = 100} = options
         const newNode = {
             id : nodeId,
             type: 'functionNode',
             position: ({
-                x: options.xPos,
-                y: options.yPos
+                x: xPos,
+                y: yPos
             }),
             data: { id: nodeId, name : nodeId, rank : options.rank},
             origin: [0.5, 0.0],

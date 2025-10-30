@@ -14,7 +14,7 @@ import { useWorkflowContext } from '../WorkflowContext';
 
 
 const FunctionNode = ({ data }) => {
-    const {workflow, colorMode} = useWorkflowContext()
+    const {workflow, colorMode, selectedFunctionId} = useWorkflowContext()
 
     if (!(data.id in workflow.ActionList)) {
         return;
@@ -36,12 +36,12 @@ const FunctionNode = ({ data }) => {
 
     const xShift = -11
     const yShift = -1
-
+    const selected = (data.id === selectedFunctionId)
     if (parseInt(data.rank) > 1){
         return(
-            <div className='function-node'>
+            <div className='function-node' style={ {borderColor : (selected? "blue" : "black")}}>
                 
-                <div style={{ marginLeft: xShift, marginTop: yShift}} className='function-node'>
+                <div style={{ marginLeft: xShift, marginTop: yShift, borderColor : (selected? "blue" : "black")}} className='function-node'>
 
                     {/* Rank Display */}
                     <span style={{
@@ -68,9 +68,9 @@ const FunctionNode = ({ data }) => {
     }
     else{
         return (
-            <div className='function-node'>
+            <div className='function-node' style={{borderColor : (selected? "blue" : "black")}}>
                 <Handle type="target"   id={data.direct === 0 ? "left" : "top"}  position={( data.direct  === 0) ? Position.Left : Position.Top} />
-                    <div style={{display : "flex", alignItems : "baseline"}}>
+                    <div style={{display : "flex", alignItems : "baseline", borderColor : (selected? "blue" : "black")}}>
                         <img className='compute-server-logo' alt="" src={logos[FaasType]}style={{ width: '30px', height: '30px'}}/>
                         <img className='type-logo' alt="" src={ logos[FuncType]}style={{ width: '15px', height: '15px'}}/>
                         <label style={{paddingLeft: "2px"}} className='truncate'>{data.id}</label>

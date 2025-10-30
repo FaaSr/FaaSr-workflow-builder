@@ -10,7 +10,8 @@ const useWorkflowAndLayoutUtils = () => {
     const {  
         nodes,
         edges,
-        workflow
+        workflow,
+        setSelectedFunctionId
     } = useWorkflowContext();
     
     const {
@@ -48,12 +49,14 @@ const useWorkflowAndLayoutUtils = () => {
      */
 
     const createActionAndNode = ( actionId, actionOptions = {}, nodeOptions = {}) => {
+        const {xPos=0,yPos=0} = nodeOptions
         const newWorkflow = addAction( actionId, actionOptions, true)
-        const {newNodes : newNodes, newEdges : newEdges} = addNode( actionId, nodeOptions, true)
+        const {newNodes : newNodes, newEdges : newEdges} = addNode( actionId, nodeOptions = { xPos: xPos, yPos: yPos}, true)
         if (Object.keys(workflow.ActionList).length === 1){
             applyWorkflowChanges({ FunctionInvoke : actionId})
         }
         updateWorkflowAndLayout(newWorkflow, newNodes, newEdges)
+        setSelectedFunctionId(actionId)
     }
 
     const deleteActionAndNode = ( id ) => {

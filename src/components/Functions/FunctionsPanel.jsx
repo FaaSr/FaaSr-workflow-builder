@@ -4,7 +4,7 @@ import { useWorkflowContext } from "../../WorkflowContext"
 import CreatableSelect from "react-select/creatable";
 import FunctionEditor from "./FunctionEditor";
 import useUndo from "../Utils/Undo";
-import useCreateNewFunction from "./FunctionCreator"
+import { useViewport } from "@xyflow/react";
 import useWorkflowAndLayoutUtils from "../Utils/WorkflowAndLayoutUtils";
 
 export default function FunctionsPanel(props){
@@ -12,13 +12,45 @@ export default function FunctionsPanel(props){
     const functionSearchOptions = Object.keys(workflow.ActionList).map( (id) => {
         return { value: id, label: id }
     });
+
+    const { x, y, zoom } = useViewport();
     const { createActionAndNode} = useWorkflowAndLayoutUtils()
     const FaaSServerList = Object.keys(workflow.ComputeServers);
     const defaultFaaSServer = FaaSServerList.length > 0 ? FaaSServerList[0] : "";
     const { updateSelectedFunctionId } = useUndo();
-    const onCreateOption = (newActionId) => createActionAndNode(newActionId);
+
+    const onCreateOption = (newActionId) => {
+        const viewportCenter = calculateViewportCenter(x, y, zoom);
+        createActionAndNode(newActionId, {}, { xPos: viewportCenter.x, yPos: viewportCenter.y });
+    };
+
     const actionNameRegex = /^[a-zA-Z_][a-zA-Z0-9_]*(?:\\([0-9]+\\))?$/
     const [ inputValue, setInputValue ] = useState("")
+
+
+    const calculateViewportCenter = (viewportX, viewportY, viewportZoom) => {
+        // Get the React Flow container dimensions
+        const flowContainer = document.querySelector('.react-flow__viewport') || document.querySelector('.react-flow__renderer');
+        
+        if (!flowContainer) {
+            return { x: 100, y: 100 };
+        }
+        
+        const containerRect = flowContainer.getBoundingClientRect();
+        
+        // Calculate center of the visible viewport in React Flow coordinates
+        const centerX = -viewportX + containerRect.width / (2 * viewportZoom);
+        const centerY = -viewportY + containerRect.height / (2 * viewportZoom);
+        
+        console.log('Viewport center calculation:', {
+            viewport: { x: viewportX, y: viewportY, zoom: viewportZoom },
+            container: { width: containerRect.width, height: containerRect.height },
+            center: { x: centerX, y: centerY }
+        });
+        
+        return { x: centerX, y: centerY };
+    };
+
 
     const isValidInput = (val) => {
 

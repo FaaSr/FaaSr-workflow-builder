@@ -72,7 +72,7 @@ export default function ArgumentsEditor( props ){
                     <input value={newArg} placeholder="argument-name" onChange={ (e) => setNewArg(e.target.value)} onFocus={clearArgumentError}></input>
                     <input value={newArgVal} placeholder="argument-value" onChange={ (e) => setNewArgVal(e.target.value)}></input>
                     <button onClick={() => {
-                        if (!/\s/.test(newArg) && newArg !== "" && !/\s/.test(newArgVal) && newArgVal !== ""){
+                        if (!/\s/.test(newArg) && newArg !== ""){
                             updateWorkflow({
                             ...workflow,
                             ActionList: {
