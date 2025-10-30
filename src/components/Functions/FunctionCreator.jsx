@@ -152,17 +152,13 @@ export const useCreateNewFunction = () => {
                         FunctionName: newActionName,
                         FaaSServer: existingFunction.FaaSServer,
                         Arguments: existingFunction.Arguments,
-                        InvokeNext: existingFunction.InvokeNext,
+                        InvokeNext: [{ True: [], False: []}],
                         Type: existingFunction.Type
                     }
                 },
                 ActionContainers: {
                     ...workflow.ActionContainers,
                     [newActionId]: workflow.ActionContainers[existingId]
-                },
-                FunctionGitRepo: {
-                    ...workflow.FunctionGitRepo,
-                    [newActionId]: workflow.FunctionGitRepo[existingId]
                 }
             };
             const {newNode, newEdges} = createNewFunctionNode(existingId, newWorkflow, newActionId);
