@@ -1,0 +1,19 @@
+{
+   "R": 
+    {
+        "GitHubActions":"ghcr.io/faasr/github-actions-r:latest",
+        "OpenWhisk":"faasr/openwhisk-r:latest",
+        "Lambda":"145342739029.dkr.ecr.us-east-1.amazonaws.com/aws-lambda-r:latest",
+        "SLURM":"faasr/slurm-r:latest",
+        "GoogleCloud":"faasr/gcp-r:latest"
+    },
+    "Python":
+    {
+        "GitHubActions":"ghcr.io/faasr/github-actions-python:latest",
+        "OpenWhisk":"faasr/openwhisk-python:latest",
+        "Lambda":"145342739029.dkr.ecr.us-east-1.amazonaws.com/aws-lambda-python:latest",
+        "SLURM":"faasr/slurm-python:latest",
+        "GoogleCloud":"faasr/gcp-python:latest"
+    }
+}
+    

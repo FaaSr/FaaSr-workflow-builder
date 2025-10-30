@@ -4,6 +4,8 @@ import { useWorkflowContext } from "../../WorkflowContext";
 import useWorkflowUtils from "../Utils/WorkflowUtils";
 import useLayoutUtils from "../Utils/LayoutUtils";
 import axios from "axios";
+import defaultContainers from './../../assets/default-containers.json' with { type: 'json' };
+
 
 export function UploadWorkflow(props) {
     const fileInputRef = useRef(null);
@@ -135,10 +137,23 @@ export function UploadWorkflow(props) {
                 };
             }
 
+            const defaultContainerNames = Object.values(defaultContainers['R']).concat(Object.values(defaultContainers['Python']))
+            let updatedActionContainers = newWorkflow.ActionContainers
+            if (newWorkflow.ActionContainers) {
+                for (const actionId in updatedActionContainers) {
+                    if (defaultContainerNames.some(name => name === newWorkflow.ActionContainers[actionId])){
+                        updatedActionContainers[actionId] = "";
+                    }
+                }
+            
+            } 
+
+
 
             const updatedWorkflow = {
                 ...newWorkflow,
-                ActionList: updatedActionList
+                ActionList: updatedActionList,
+                ActionContainers: updatedActionContainers
             };
 
 
