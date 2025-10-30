@@ -30,25 +30,9 @@ export default function FunctionsPanel(props){
 
     const calculateViewportCenter = (viewportX, viewportY, viewportZoom) => {
         // Get the React Flow container dimensions
-        const flowContainer = document.querySelector('.react-flow__viewport') || document.querySelector('.react-flow__renderer');
-        
-        if (!flowContainer) {
-            return { x: 100, y: 100 };
-        }
-        
-        const containerRect = flowContainer.getBoundingClientRect();
-        
-        // Calculate center of the visible viewport in React Flow coordinates
-        const centerX = -viewportX + containerRect.width / (2 * viewportZoom);
-        const centerY = -viewportY + containerRect.height / (2 * viewportZoom);
-        
-        console.log('Viewport center calculation:', {
-            viewport: { x: viewportX, y: viewportY, zoom: viewportZoom },
-            container: { width: containerRect.width, height: containerRect.height },
-            center: { x: centerX, y: centerY }
-        });
-        
-        return { x: centerX, y: centerY };
+        // alert("Viewport at (x:" + viewportX + ", y:"+viewportY+") zoom: "+viewportZoom)
+
+        return {x: (-viewportX+568)/viewportZoom, y: (-viewportY+273)/viewportZoom}
     };
 
 
