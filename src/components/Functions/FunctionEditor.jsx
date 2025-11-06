@@ -12,6 +12,7 @@ import GitPackageEditor from "./EditorComponents/GitPackageEditor";
 import GitRepoPathEditor from "./EditorComponents/GitRepoPathEditor";
 import useWorkflowUtils from "../Utils/WorkflowUtils";
 import PyPIPackageEditor from "./EditorComponents/PyPIPackageEditor";
+import useWorkflowAndLayoutUtils from "../Utils/WorkflowAndLayoutUtils";
 
 
 export default function FunctionEditor(props){
@@ -24,6 +25,7 @@ export default function FunctionEditor(props){
     const { updateAction, applyWorkflowChanges } = useWorkflowUtils()
     const [ addToLayoutError, setAddToLayoutError ] = useState(false)
     const [ duplicateError, setDuplicateError ] = useState('')
+    const { deleteActionAndNode } = useWorkflowAndLayoutUtils()
 
     const isActionContainerEmpty = () => {
         return !(id in workflow.ActionContainers)
@@ -101,13 +103,7 @@ export default function FunctionEditor(props){
 
                 <div>
                     <button onClick={ () => {
-                        const newWorkflow = structuredClone(workflow);
-                        delete newWorkflow.ActionList[id];
-                        updateWorkflowAndLayout(
-                            newWorkflow,
-                            nodes.filter( (node) =>node.id !== id),
-                            edges.filter( (edge) => edge.source !== id && edge.target !== id)
-                        );
+                        deleteActionAndNode(id)
                     }}>Delete Action Permanently</button>
                 </div>
                 <br></br>
