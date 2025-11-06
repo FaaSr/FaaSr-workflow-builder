@@ -81,11 +81,20 @@ const useWorkflowUtils = () => {
      */
     const listInvokeNext = (id) => {
         const invokes = []
-        const invokeNext = workflow.ActionList[id].InvokeNext
+        
+        const action = workflow.ActionList?.[id]
+        if (!action) {
+            return invokes
+        }
+        const invokeNext = action.InvokeNext
 
-        const trueInvokes = invokeNext[0].True 
-        const falseInvokes = invokeNext[0].False
-        const unconditionalInvokes = invokeNext.slice(1)
+        if (!invokeNext || !Array.isArray(invokeNext) || invokeNext.length === 0) {
+            return invokes
+        }
+
+        const trueInvokes = invokeNext[0]?.True || []
+        const falseInvokes = invokeNext[0]?.False || []
+        const unconditionalInvokes = invokeNext.slice(1) || []
 
         return invokes.concat(trueInvokes, falseInvokes, unconditionalInvokes)
     }
@@ -97,6 +106,16 @@ const useWorkflowUtils = () => {
     const deleteAction = ( id, returnDontMutate = false) => {
         const newActionList = {...workflow.ActionList}
         delete newActionList[id]
+        
+
+
+        // Delete invokeNexts which refrence deleted Action
+        Object.keys(newActionList).forEach(key => {
+            const updatedAction = deleteInvoke(key, id, true)
+            newActionList[key] = updatedAction
+        })
+
+
         if (returnDontMutate){
             return applyWorkflowChanges( { ActionList : newActionList}, true)
         } else applyWorkflowChanges( { ActionList : newActionList})
@@ -141,31 +160,36 @@ const useWorkflowUtils = () => {
     }
 
     // Delete invoke from action
-    const deleteInvoke = ( actionId, invokeId, returnDontMutate = false) => {
-        const oldInvokeNext = workflow.ActionList[actionId].InvokeNext
-        let newInvokenext = [
-            // Delete conditonals that match invoke Id
+    const deleteInvoke = (actionId, invokeId, returnDontMutate = false) => {
+        const action = workflow.ActionList[actionId]
+        const oldInvokeNext = action.InvokeNext
+        
+        let newInvokeNext = [
             {
-                True : [...oldInvokeNext[0].True.filter( invoke => {
+                True: oldInvokeNext[0]?.True?.filter(invoke => {
                     const { id } = parseInvoke(invoke);
                     return id !== invokeId
-                })],
-                False : [...oldInvokeNext[0].False.filter( invoke => {
+                }) || [],
+                False: oldInvokeNext[0]?.False?.filter(invoke => {
                     const { id } = parseInvoke(invoke);
                     return id !== invokeId
-                })]
+                }) || []
             },
-            // Delete unconditionals that match invoke Id
-            ...oldInvokeNext.splice(1).filter( invoke => {
+            ...(oldInvokeNext?.slice(1)?.filter(invoke => {
                 const { id } = parseInvoke(invoke);
                 return id !== invokeId
-            })
+            }) || [])
         ]
 
         if (returnDontMutate){
-
-            return updateAction( actionId, { InvokeNext : newInvokenext}, true)
-        } else updateAction( actionId, { InvokeNext : newInvokenext})
+            // Just return the modified action, don't trigger any workflow updates
+            return {
+                ...action,
+                InvokeNext: newInvokeNext
+            }
+        } else {
+            updateAction(actionId, { InvokeNext: newInvokeNext })
+        }
     }
 
     const addInvoke = ( actionId, invokeId, conditonal = "Unconditional ", rank = null, returnDontMutate = false) => {
@@ -184,7 +208,7 @@ const useWorkflowUtils = () => {
                     ...((conditonal === "False") ? [newInvoke] : [])
                 ]
             },
-            ...oldInvokeNext.splice(1),
+            ...oldInvokeNext.slice(1),
             ...((conditonal === "Unconditional") ? [newInvoke] : [])
         ]
 
@@ -199,7 +223,7 @@ const useWorkflowUtils = () => {
         return invoke
     }
 
-        // Find true/false/unconditional value of invoke
+    // Find true/false/unconditional value of invoke
     const getInvokeCondition = (funcId, invoke) => {
         const invokeNext = workflow.ActionList[funcId].InvokeNext
         if ( invokeNext[0].True.includes(invoke)) return "True"

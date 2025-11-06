@@ -61,7 +61,7 @@ const useWorkflowAndLayoutUtils = () => {
 
     const deleteActionAndNode = ( id ) => {
         const newWorkflow = deleteAction( id, true)
-        const {newNodes, newEdges} = deleteNode( id, false, true )
+        const {newNodes, newEdges } = deleteNode( id, true, true)
         updateWorkflowAndLayout(newWorkflow, newNodes, newEdges)
     }
 

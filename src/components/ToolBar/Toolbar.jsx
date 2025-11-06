@@ -267,8 +267,8 @@ export default function Toolbar(props) {
             <GenericButton icon={<IoMdSettings/>} onClick={() => props.setEditType("WorkflowSettings")}>Workflow Settings</GenericButton>
 
             
-            {/* <GenericButton onClick={() => props.toggleWorkflowVisible()}>Toggle Workflow</GenericButton>
-            <GenericButton onClick={() => props.toggleGraphVisible()}>Toggle Graph</GenericButton> */}
+            <GenericButton onClick={() => props.toggleWorkflowVisible()}>Toggle Workflow</GenericButton>
+            <GenericButton onClick={() => props.toggleGraphVisible()}>Toggle Graph</GenericButton>
         
 
 
