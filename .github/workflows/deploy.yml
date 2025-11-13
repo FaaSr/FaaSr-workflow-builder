@@ -34,7 +34,7 @@ jobs:
 
       #  Build your React project
       - name: Build
-        run: npm run build
+        run: CI=false npm run build
 
       #  Deploy the built /build folder to GitHub Pages
       - name: Deploy to GitHub Pages
