@@ -20,7 +20,7 @@ import InfoBox from './components/Utils/InfoBox';
 const defaultEdgeOptions = { animated: false };
 
 function App() {
-  const { edges, setEdges, nodes, setNodes, workflow, colorMode, setColorMode} = useWorkflowContext();
+  const { edges, setEdges, nodes, setNodes, workflow, colorMode, setColorMode, debugging} = useWorkflowContext();
   const { createInvokeAndEdge, deleteInvokeAndEdge, deleteActionAndNode} = useWorkflowAndLayoutUtils()
   const { updateLayout, updateWorkflowAndLayout, selectedFunctionId, updateSelectedFunctionId, undo, redo, canUndo, canRedo } = useUndo();
   const updateNodeInternals = useUpdateNodeInternals()
@@ -198,8 +198,14 @@ function App() {
       {/* </header> */}
 
       <div id="mid-panel" >
-        <VisibleGraph nodes={nodes} edges={edges} visible={visibleObjects.graph}></VisibleGraph>
-        <VisibleWorkflow visible={visibleObjects.workflow}></VisibleWorkflow>
+        {
+          debugging && 
+          (<>
+            <VisibleGraph nodes={nodes} edges={edges} visible={visibleObjects.graph}></VisibleGraph>
+            <VisibleWorkflow visible={visibleObjects.workflow}></VisibleWorkflow>
+          </>
+          )
+        }
     
         <EditorPanel id="editor-panel-component" panelWidth={panelWidth} startResizing={startResizing} ref={panelRef} addEdge={(eds, newEdge) => addEdge(eds, newEdge)} createEdge={(a,b, c, d) => createEdge(a,b, c, d)}  createNewEdge={createNewEdge} type={editType}/>
 
