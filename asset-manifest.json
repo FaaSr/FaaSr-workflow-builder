@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/FaaSr-workflow-builder/static/css/main.bd9cc1dc.css",
-    "main.js": "/FaaSr-workflow-builder/static/js/main.ce3df04e.js",
+    "main.js": "/FaaSr-workflow-builder/static/js/main.57718c15.js",
     "static/media/awsLambda.png": "/FaaSr-workflow-builder/static/media/awsLambda.7005e54783990f2b26bd.png",
     "static/media/R_logo.png": "/FaaSr-workflow-builder/static/media/R_logo.56ae4454c59e10d9748c.png",
     "static/media/SLURMLogo.png": "/FaaSr-workflow-builder/static/media/SLURMLogo.99f79f144b6922bb1c19.png",
-    "static/media/pythonLogo.svg": "/FaaSr-workflow-builder/static/media/pythonLogo.ffa1251f749f6ab8768c5f32548e5b14.svg",
+    "static/media/pythonLogo.svg": "/FaaSr-workflow-builder/static/media/pythonLogo.849d0b2b5f1ec20f077dd267498bd536.svg",
     "static/media/googleCloudLogo.svg": "/FaaSr-workflow-builder/static/media/googleCloudLogo.dd8fa784860da51ee0d7ddceb8850919.svg",
     "static/media/github-mark.svg": "/FaaSr-workflow-builder/static/media/github-mark.6fa18895f6e6c7772cab7049f7e05f59.svg",
     "static/media/github-mark-white.svg": "/FaaSr-workflow-builder/static/media/github-mark-white.97ed8e7eef60d61ca469881dd6f34511.svg",
     "index.html": "/FaaSr-workflow-builder/index.html",
     "static/media/openWhiskIcon.svg": "/FaaSr-workflow-builder/static/media/openWhiskIcon.15463709823141a7ee4c761d0b24e0d1.svg",
     "main.bd9cc1dc.css.map": "/FaaSr-workflow-builder/static/css/main.bd9cc1dc.css.map",
-    "main.ce3df04e.js.map": "/FaaSr-workflow-builder/static/js/main.ce3df04e.js.map"
+    "main.57718c15.js.map": "/FaaSr-workflow-builder/static/js/main.57718c15.js.map"
   },
   "entrypoints": [
     "static/css/main.bd9cc1dc.css",
-    "static/js/main.ce3df04e.js"
+    "static/js/main.57718c15.js"
   ]
 }
