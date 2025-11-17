@@ -15,7 +15,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import defaultContainers from './../../assets/default-containers.json' with { type: 'json' };
 
 export default function Toolbar(props) {
-    const {workflow, edges, nodes, } = useWorkflowContext();
+    const {workflow, edges, nodes, debugging} = useWorkflowContext();
     const [ downloadPopupEnabled, setDownloadPopupEnabled ] = useState(false)
     const [ uploadPopupEnabled, setUploadPopupEnabled ] = useState(false)
     const [ downloadError, setDownloadError ] = useState(false);
@@ -267,8 +267,14 @@ export default function Toolbar(props) {
             <GenericButton icon={<IoMdSettings/>} onClick={() => props.setEditType("WorkflowSettings")}>Workflow Settings</GenericButton>
 
             
-            <GenericButton onClick={() => props.toggleWorkflowVisible()}>Toggle Workflow</GenericButton>
-            <GenericButton onClick={() => props.toggleGraphVisible()}>Toggle Graph</GenericButton>
+            {
+                debugging && 
+                (<>
+                <GenericButton onClick={() => props.toggleWorkflowVisible()}>Toggle Workflow</GenericButton>
+                <GenericButton onClick={() => props.toggleGraphVisible()}>Toggle Graph</GenericButton>
+                </>
+                )
+            }
         
 
 

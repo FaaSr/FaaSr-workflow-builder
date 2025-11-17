@@ -1,4 +1,5 @@
 name: Deploy React App to GitHub Pages
+run-name: "Deploy : ${{ github.event.head_commit.message }}"
 
 # Trigger when new code modified from push or PR
 on:
@@ -17,11 +18,11 @@ jobs:
     runs-on: ubuntu-latest  # GitHub runs this on a Linux VM
 
     steps:
-      # Download your repository’s code
+      # Download Code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      #  Set up Node.js (environment for React)
+      #  Set up Node.js environment
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -32,11 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      #  Build your React project
+      #  Build
       - name: Build
+        # CI=false prevents warnings from failing deploy
         run: CI=false npm run build
 
-      #  Deploy the built /build folder to GitHub Pages
+      #  Deploy the built files from /build to gh-pages branch
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'   # only deploy after merge
         uses: peaceiris/actions-gh-pages@v4

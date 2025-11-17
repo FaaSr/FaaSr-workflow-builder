@@ -10,6 +10,8 @@ export const WorkflowProvider = ( {children} ) => {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
 
+    const debugging = false;
+
     const [selectedFunctionId, setSelectedFunctionId] = useState(null)
 
     const [deletedActions, setDeletedActions] = useState([]);
@@ -99,7 +101,8 @@ export const WorkflowProvider = ( {children} ) => {
             undoHistory, setUndoHistory,
             colorMode, setColorMode,
             getLayoutedElements,
-            invocationIDType, setInvocationIDType
+            invocationIDType, setInvocationIDType,
+            debugging
         }}>
 
             {children}
