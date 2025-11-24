@@ -132,7 +132,8 @@ export function UploadWorkflow(props) {
                 const fn = actions[key];
                 updatedActionList[key] = {
                     ...fn,
-                    InvokeNext: typeof fn.InvokeNext[0] === 'object' ? [{ True : fn.InvokeNext[0].True || [], False : fn.InvokeNext[0].False || []}, ...fn.InvokeNext.slice(1)] : [{ True : [], False : []}, ...fn.InvokeNext],
+                    InvokeNext: fn.InvokeNext ? (typeof fn.InvokeNext[0] === 'object' ? [{ True: fn.InvokeNext[0].True || [], False: fn.InvokeNext[0].False || [] }, ...fn.InvokeNext.slice(1)] : [{ True: [], False: [] }, ...fn.InvokeNext])
+                        : [{ True: [], False: [] }],
                     Arguments : fn.Arguments ? fn.Arguments : {}
                 };
             }
