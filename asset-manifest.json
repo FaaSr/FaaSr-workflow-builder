@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/FaaSr-workflow-builder/static/css/main.bd9cc1dc.css",
-    "main.js": "/FaaSr-workflow-builder/static/js/main.57718c15.js",
+    "main.js": "/FaaSr-workflow-builder/static/js/main.c595ee19.js",
     "static/media/awsLambda.png": "/FaaSr-workflow-builder/static/media/awsLambda.7005e54783990f2b26bd.png",
     "static/media/R_logo.png": "/FaaSr-workflow-builder/static/media/R_logo.56ae4454c59e10d9748c.png",
     "static/media/SLURMLogo.png": "/FaaSr-workflow-builder/static/media/SLURMLogo.99f79f144b6922bb1c19.png",
@@ -12,10 +12,10 @@
     "index.html": "/FaaSr-workflow-builder/index.html",
     "static/media/openWhiskIcon.svg": "/FaaSr-workflow-builder/static/media/openWhiskIcon.15463709823141a7ee4c761d0b24e0d1.svg",
     "main.bd9cc1dc.css.map": "/FaaSr-workflow-builder/static/css/main.bd9cc1dc.css.map",
-    "main.57718c15.js.map": "/FaaSr-workflow-builder/static/js/main.57718c15.js.map"
+    "main.c595ee19.js.map": "/FaaSr-workflow-builder/static/js/main.c595ee19.js.map"
   },
   "entrypoints": [
     "static/css/main.bd9cc1dc.css",
-    "static/js/main.57718c15.js"
+    "static/js/main.c595ee19.js"
   ]
 }
